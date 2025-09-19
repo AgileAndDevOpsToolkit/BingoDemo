@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Préparer une démo</title>
+  <title>Bingo Démo</title>
   <style>
     :root {
       --bg: #f6f7fb;
@@ -13,11 +13,13 @@
       --muted: #5b6472;
       --accent: #1fbf5b;
       --accent-600: #179a49;
+      --accent-700: #138242;
       --border: #dfe4ee;
       --shadow: 0 10px 30px rgba(20,32,55,.08);
       --radius: 16px;
       --radius-sm: 12px;
       --focus: 0 0 0 3px rgba(31, 191, 91, .35), 0 0 0 6px rgba(31, 191, 91, .18);
+      --check-green: #28d17c;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -26,10 +28,21 @@
 
     .container { max-width: 1200px; margin: 32px auto 64px; padding: 0 16px; }
 
-    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
-    .title { font-size: clamp(22px, 2.6vw, 32px); font-weight: 800; color: #0b1220; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .title { font-size: clamp(24px, 3vw, 36px); font-weight: 900; color: #0b1220; }
     .hint { font-size: 13px; color: var(--muted); }
 
+    /* Tabs */
+    .tabs { display: flex; gap: 10px; margin: 12px 0 20px; flex-wrap: wrap; }
+    .tab-btn { appearance: none; border: 1px solid var(--border); background: #fff; color: #0b1220; padding: 10px 16px; border-radius: 999px; cursor: pointer; box-shadow: var(--shadow); font-weight: 700; transition: all .15s ease-in-out; }
+    .tab-btn:hover { transform: translateY(-1px); }
+    /* Selected tab much more visible */
+    .tab-btn[aria-selected="true"] { background: linear-gradient(180deg, var(--accent), var(--accent-600)); color: #fff; border-color: var(--accent-700); box-shadow: 0 8px 20px rgba(31,191,91,.35), inset 0 -2px 0 rgba(0,0,0,.08); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* --- Panel 1: Préparer une démo (table) --- */
     .table-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 
     table { width: 100%; border-collapse: collapse; table-layout: auto; }
@@ -40,7 +53,7 @@
 
     td { vertical-align: top; padding: 14px 16px; }
 
-    /* Colonne image (un peu plus grande) */
+    /* Colonne image */
     td.img-cell { width: 190px; }
     .img-block { display: grid; grid-template-rows: auto 1fr; gap: 8px; align-items: start; }
     .img-label { font-weight: 800; font-size: 15px; }
@@ -61,8 +74,25 @@
 
     tr.muted { filter: grayscale(.9) opacity(.65); opacity: .56; }
 
+    /* --- Panel 2: Évaluer une démo (grille 3x3) --- */
+    .grid-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px; }
+    .grid9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+    .cell { position: relative; background: #fff; border: 2px solid #e7ecf3; border-radius: 12px; padding: 12px 12px 60px; min-height: 210px; display: grid; grid-template-rows: auto 1fr; }
+    .cell .mini { display: flex; align-items: center; gap: 12px; }
+    /* desktop: images 3x plus grandes (passent de 34 à 96px) */
+    .cell .mini img { width: 96px; height: 96px; object-fit: contain; }
+    .cell .mini .t { font-weight: 800; font-size: 18px; color: #0e1a2b; line-height: 1.2; }
+
+    /* Bigger green check */
+    .tick { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); width: 76px; height: 76px; border-radius: 50%; border: 3px solid #cfd8e3; background: #f3f6fb; display: grid; place-items: center; cursor: pointer; transition: all .15s ease-in-out; }
+    .tick::after { content: ""; width: 18px; height: 32px; border-right: 6px solid transparent; border-bottom: 6px solid transparent; transform: rotate(40deg); }
+    .cell.active .tick { background: var(--check-green); border-color: #18a45d; box-shadow: 0 10px 22px rgba(24,164,93,.28); }
+    .cell.active .tick::after { border-right-color: #fff; border-bottom-color: #fff; }
+
     /* Mobile */
     @media (max-width: 820px) {
+      /* Panel 1 */
       thead { display: none; }
       table, tbody, tr, td { display: block; width: 100%; }
       tbody tr { padding: 14px; margin: 12px 0; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
@@ -71,41 +101,63 @@
       td.notes-cell { padding: 10px 12px; }
       .notes-label { margin-left: 2px; margin-right: 2px; }
       textarea.notes { min-height: 130px; margin: 6px 2px 0; box-shadow: none; outline: none; }
-      /* Focus visuel contenu dans la boîte pour éviter le débordement sur mobile */
       textarea.notes:focus { box-shadow: inset 0 0 0 2px rgba(31,191,91,.35); border-color: var(--accent-600); }
+
+      /* Panel 2 */
+      .grid9 { gap: 6px; }
+      .cell { min-height: 28vw; padding: 6px 6px 36px; }
+      .cell .mini img { width: 28px; height: 28px; }
+      .cell .mini .t { font-size: 12.5px; }
+      .tick { width: 40px; height: 40px; border-width: 2px; bottom: 8px; }
+      .tick::after { width: 10px; height: 18px; border-right-width: 4px; border-bottom-width: 4px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div class="title">Préparer une démo</div>
+      <div class="title">Bingo Démo</div>
       <div class="hint">Tout est coché par défaut. Décoche pour griser une ligne. Les notes sont sauvegardées automatiquement (local).</div>
     </header>
 
-    <div class="table-wrap" role="region">
-      <table>
-        <thead>
-          <tr>
-            <th>Élément</th>
-            <th> </th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-preparer" id="tabbtn-preparer">Préparer une démo</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-evaluer" id="tabbtn-evaluer">Évaluer une démo</button>
+    </nav>
+
+    <!-- Panel 1: Préparer une démo -->
+    <section id="tab-preparer" class="tab-panel active">
+      <div class="table-wrap" role="region">
+        <table>
+          <thead>
+            <tr>
+              <th>Élément</th>
+              <th> </th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Panel 2: Évaluer une démo -->
+    <section id="tab-evaluer" class="tab-panel" aria-hidden="true">
+      <div class="grid-wrap">
+        <div id="grid9" class="grid9" role="grid" aria-label="Évaluer une démo — 9 critères"></div>
+      </div>
+    </section>
   </div>
 
   <script>
     const ITEMS = [
-      { id: 'pour-qui-pourquoi', label: 'Pour Qui ? Pourquoi ?', img: 'PourQuiPourquoi.png', alt: 'Pour Qui ? Pourquoi ?', prompt: "A qui s'adresse la démo ? Quel message voulez-vous transmettre à votre public cible ?" },
+      { id: 'pour-qui-pourquoi', label: 'Pour Qui ? Pour Quoi ?', img: 'PourQuiPourquoi.png', alt: 'Pour Qui ? Pour Quoi ?', prompt: "A qui s'adresse la démo ? Quel message voulez-vous transmettre à votre public cible ?" },
       { id: 'raconter-une-histoire', label: 'Raconter Une Histoire', img: 'RaconterUneHistoire.png', alt: 'Raconter Une Histoire', prompt: 'Quelle histoire allez-vous raconter afin de contextualiser votre présentation ?' },
       { id: 'roadmap', label: 'Roadmap', img: 'Roadmap.png', alt: 'Roadmap', prompt: 'Avez-vous prévu de donner une roadmap ? Quelles sont les dates clé ?' },
       { id: 'next-step', label: 'Next Step', img: 'NextStep.png', alt: 'Next Step', prompt: 'Quelle est la prochaine étape qui fait suite à votre présentation ?' },
       { id: 'image-figurative', label: 'Image Figurative', img: 'ImageFigurative.png', alt: 'Image Figurative', prompt: 'Avez-vous prévu d\'illustrer votre présentation par des images ? Quelles images sont prévues ?' },
-      { id: 'schema', label: 'Schéma', img: 'Schema.png', alt: 'Schéma', prompt: 'Avez-vous prévu de présenter des schémas ? Quels schémas ?' },
-      { id: 'capture-ecran', label: "Capture d'écran", img: 'CaptureEcran.png', alt: "Capture d'écran", prompt: "Avez-vous prévu de mettre des captures d'écran ou des photos du produit que vous présentez ? Quelles captures d'écran ou photos ?" },
+      { id: 'schema', label: 'Schéma', img: 'SCHEMA.png', alt: 'Schéma', prompt: 'Avez-vous prévu de présenter des schémas ? Quels schémas ?' },
+      { id: 'capture-ecran', label: "Captures d'Écran", img: 'CaptureEcran.png', alt: "Captures d'Écran", prompt: "Avez-vous prévu de mettre des captures d'écran ou des photos du produit que vous présentez ? Quelles captures d'écran ou photos ?" },
       { id: 'demo-live', label: 'Démo Live', img: 'DemoLive.png', alt: 'Démo Live', prompt: 'Avez vous prévu de faire une démo live du produit que vous présentez ? Quel scénario ?' },
       { id: 'cadeau', label: 'Cadeau', img: 'Cadeau.png', alt: 'Cadeau', prompt: "Avez-vous prévu de donner quelque chose à l'auditoire à la fin de la présentation ? Lien, accès à un produit ?" },
     ];
@@ -113,6 +165,7 @@
     const rowsEl = document.getElementById('rows');
     function storageKey(key) { return `checklist9:${key}`; }
 
+    // ----- Panel 1: table -----
     function createRow(item) {
       const tr = document.createElement('tr');
       tr.dataset.id = item.id;
@@ -152,7 +205,6 @@
         tr.classList.toggle('muted', !checkbox.checked);
         localStorage.setItem(storageKey(`${item.id}:checked`), checkbox.checked);
       });
-
       notes.addEventListener('input', () => {
         localStorage.setItem(storageKey(`${item.id}:notes`), notes.value);
       });
@@ -160,8 +212,60 @@
       return tr;
     }
 
-    function init() { ITEMS.forEach(item => rowsEl.appendChild(createRow(item))); }
-    document.addEventListener('DOMContentLoaded', init);
+    function initTable() { ITEMS.forEach(item => rowsEl.appendChild(createRow(item))); }
+
+    // ----- Panel 2: grid -----
+    function gridStorageKey(id){ return storageKey(`eval:${id}`); }
+    function makeCell(item){
+      const div = document.createElement('div');
+      div.className = 'cell';
+      div.setAttribute('role','gridcell');
+      div.dataset.id = item.id;
+      div.innerHTML = `
+        <div class="mini" aria-hidden="true">
+          <img src="${item.img}" alt="" />
+          <div class="t">${item.label}</div>
+        </div>
+        <div class="tick" role="button" aria-label="Cocher ${item.label}"></div>
+      `;
+      const on = localStorage.getItem(gridStorageKey(item.id)) === 'true';
+      if (on) div.classList.add('active');
+      div.querySelector('.tick').addEventListener('click', () => {
+        div.classList.toggle('active');
+        const state = div.classList.contains('active');
+        localStorage.setItem(gridStorageKey(item.id), String(state));
+      });
+      return div;
+    }
+
+    function initGrid(){
+      const grid = document.getElementById('grid9');
+      ITEMS.forEach(i => grid.appendChild(makeCell(i)));
+    }
+
+    // ----- Tabs -----
+    function initTabs(){
+      const btnPrep = document.getElementById('tabbtn-preparer');
+      const btnEval = document.getElementById('tabbtn-evaluer');
+      const pPrep = document.getElementById('tab-preparer');
+      const pEval = document.getElementById('tab-evaluer');
+      function activate(which){
+        const prep = which==='prep';
+        btnPrep.setAttribute('aria-selected', prep?'true':'false');
+        btnEval.setAttribute('aria-selected', prep?'false':'true');
+        pPrep.classList.toggle('active', prep);
+        pEval.classList.toggle('active', !prep);
+      }
+      btnPrep.addEventListener('click', () => activate('prep'));
+      btnEval.addEventListener('click', () => activate('eval'));
+      activate('prep');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTable();
+      initGrid();
+      initTabs();
+    });
   </script>
 </body>
 </html>
