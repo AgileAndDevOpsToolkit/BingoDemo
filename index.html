@@ -28,15 +28,14 @@
 
     .container { max-width: 1200px; margin: 32px auto 64px; padding: 0 16px; }
 
-    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
     .title { font-size: clamp(24px, 3vw, 36px); font-weight: 900; color: #0b1220; }
-    .hint { font-size: 13px; color: var(--muted); }
+    .hint { font-size: 13px; color: var(--muted); flex: 1; min-width: 220px; }
 
     /* Tabs */
     .tabs { display: flex; gap: 10px; margin: 12px 0 20px; flex-wrap: wrap; }
     .tab-btn { appearance: none; border: 1px solid var(--border); background: #fff; color: #0b1220; padding: 10px 16px; border-radius: 999px; cursor: pointer; box-shadow: var(--shadow); font-weight: 700; transition: all .15s ease-in-out; }
     .tab-btn:hover { transform: translateY(-1px); }
-    /* Selected tab much more visible */
     .tab-btn[aria-selected="true"] { background: linear-gradient(180deg, var(--accent), var(--accent-600)); color: #fff; border-color: var(--accent-700); box-shadow: 0 8px 20px rgba(31,191,91,.35), inset 0 -2px 0 rgba(0,0,0,.08); }
 
     .tab-panel { display: none; }
@@ -75,17 +74,15 @@
     tr.muted { filter: grayscale(.9) opacity(.65); opacity: .56; }
 
     /* --- Panel 2: Évaluer une démo (grille 3x3) --- */
-    .grid-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 12px; }
-    .grid9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 8px; }
+    .grid9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 
-    .cell { position: relative; background: #fff; border: 2px solid #e7ecf3; border-radius: 12px; padding: 12px 12px 60px; min-height: 210px; display: grid; grid-template-rows: auto 1fr; }
-    .cell .mini { display: flex; align-items: center; gap: 12px; }
-    /* desktop: images 3x plus grandes (passent de 34 à 96px) */
+    .cell { position: relative; background: #fff; border: 2px solid #e7ecf3; border-radius: 12px; padding: 8px 8px 54px; min-height: 180px; display: grid; grid-template-rows: auto 1fr; overflow: hidden; }
+    .cell .mini { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .cell .mini img { width: 96px; height: 96px; object-fit: contain; }
-    .cell .mini .t { font-weight: 800; font-size: 18px; color: #0e1a2b; line-height: 1.2; }
+    .cell .mini .t { font-weight: 800; font-size: 16px; color: #0e1a2b; line-height: 1.25; }
 
-    /* Bigger green check */
-    .tick { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); width: 76px; height: 76px; border-radius: 50%; border: 3px solid #cfd8e3; background: #f3f6fb; display: grid; place-items: center; cursor: pointer; transition: all .15s ease-in-out; }
+    .tick { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); width: 72px; height: 72px; border-radius: 50%; border: 3px solid #cfd8e3; background: #f3f6fb; display: grid; place-items: center; cursor: pointer; transition: all .15s ease-in-out; }
     .tick::after { content: ""; width: 18px; height: 32px; border-right: 6px solid transparent; border-bottom: 6px solid transparent; transform: rotate(40deg); }
     .cell.active .tick { background: var(--check-green); border-color: #18a45d; box-shadow: 0 10px 22px rgba(24,164,93,.28); }
     .cell.active .tick::after { border-right-color: #fff; border-bottom-color: #fff; }
@@ -104,12 +101,13 @@
       textarea.notes:focus { box-shadow: inset 0 0 0 2px rgba(31,191,91,.35); border-color: var(--accent-600); }
 
       /* Panel 2 */
-      .grid9 { gap: 6px; }
-      .cell { min-height: 28vw; padding: 6px 6px 36px; }
-      .cell .mini img { width: 28px; height: 28px; }
-      .cell .mini .t { font-size: 12.5px; }
-      .tick { width: 40px; height: 40px; border-width: 2px; bottom: 8px; }
-      .tick::after { width: 10px; height: 18px; border-right-width: 4px; border-bottom-width: 4px; }
+      .grid9 { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+      .cell { min-height: 32vw; padding: 4px 4px 32px; }
+      .cell .mini { gap: 4px; justify-content: center; }
+      .cell .mini img { width: 24px; height: 24px; }
+      .cell .mini .t { font-size: 11px; text-align: center; }
+      .tick { width: 36px; height: 36px; border-width: 2px; bottom: 6px; }
+      .tick::after { width: 9px; height: 16px; border-right-width: 3px; border-bottom-width: 3px; }
     }
   </style>
 </head>
@@ -156,7 +154,7 @@
       { id: 'roadmap', label: 'Roadmap', img: 'Roadmap.png', alt: 'Roadmap', prompt: 'Avez-vous prévu de donner une roadmap ? Quelles sont les dates clé ?' },
       { id: 'next-step', label: 'Next Step', img: 'NextStep.png', alt: 'Next Step', prompt: 'Quelle est la prochaine étape qui fait suite à votre présentation ?' },
       { id: 'image-figurative', label: 'Image Figurative', img: 'ImageFigurative.png', alt: 'Image Figurative', prompt: 'Avez-vous prévu d\'illustrer votre présentation par des images ? Quelles images sont prévues ?' },
-      { id: 'schema', label: 'Schéma', img: 'SCHEMA.png', alt: 'Schéma', prompt: 'Avez-vous prévu de présenter des schémas ? Quels schémas ?' },
+      { id: 'schema', label: 'Schéma', img: 'Schema.png', alt: 'Schéma', prompt: 'Avez-vous prévu de présenter des schémas ? Quels schémas ?' },
       { id: 'capture-ecran', label: "Captures d'Écran", img: 'CaptureEcran.png', alt: "Captures d'Écran", prompt: "Avez-vous prévu de mettre des captures d'écran ou des photos du produit que vous présentez ? Quelles captures d'écran ou photos ?" },
       { id: 'demo-live', label: 'Démo Live', img: 'DemoLive.png', alt: 'Démo Live', prompt: 'Avez vous prévu de faire une démo live du produit que vous présentez ? Quel scénario ?' },
       { id: 'cadeau', label: 'Cadeau', img: 'Cadeau.png', alt: 'Cadeau', prompt: "Avez-vous prévu de donner quelque chose à l'auditoire à la fin de la présentation ? Lien, accès à un produit ?" },
