@@ -100,6 +100,24 @@
       textarea.notes { min-height: 130px; margin: 6px 2px 0; box-shadow: none; outline: none; }
       textarea.notes:focus { box-shadow: inset 0 0 0 2px rgba(31,191,91,.35); border-color: var(--accent-600); }
 
+      /* Panel 2 — mobile: texte SOUS l'image + icône 2x plus grande */
+      .grid9 { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+      .cell { min-height: 33vw; padding: 6px 4px 36px; }
+      .cell .mini { gap: 6px; justify-content: center; align-items: center; flex-direction: column; text-align: center; }
+      .cell .mini img { width: 48px; height: 48px; }
+      .cell .mini .t { font-size: 11.5px; line-height: 1.25; }
+      .tick { width: 36px; height: 36px; border-width: 2px; bottom: 6px; }
+      .tick::after { width: 9px; height: 16px; border-right-width: 3px; border-bottom-width: 3px; }
+    }
+      table, tbody, tr, td { display: block; width: 100%; }
+      tbody tr { padding: 14px; margin: 12px 0; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+      td { padding: 10px 12px; }
+      .check-cell { text-align: left; }
+      td.notes-cell { padding: 10px 12px; }
+      .notes-label { margin-left: 2px; margin-right: 2px; }
+      textarea.notes { min-height: 130px; margin: 6px 2px 0; box-shadow: none; outline: none; }
+      textarea.notes:focus { box-shadow: inset 0 0 0 2px rgba(31,191,91,.35); border-color: var(--accent-600); }
+
       /* Panel 2 */
       .grid9 { grid-template-columns: repeat(3, 1fr); gap: 4px; }
       .cell { min-height: 32vw; padding: 4px 4px 32px; }
