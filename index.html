@@ -213,4 +213,57 @@
     function initTable() { ITEMS.forEach(item => rowsEl.appendChild(createRow(item))); }
 
     // ----- Panel 2: grid -----
-    function gridStorageKey(id){ return storageKey(`eval:${id}`
+    function gridStorageKey(id){ return storageKey(`eval:${id}`); }
+    function makeCell(item){
+      const div = document.createElement('div');
+      div.className = 'cell';
+      div.setAttribute('role','gridcell');
+      div.dataset.id = item.id;
+      div.innerHTML = `
+        <div class="mini" aria-hidden="true">
+          <img src="${item.img}" alt="" />
+          <div class="t">${item.label}</div>
+        </div>
+        <div class="tick" role="button" aria-label="Cocher ${item.label}"></div>
+      `;
+      const on = localStorage.getItem(gridStorageKey(item.id)) === 'true';
+      if (on) div.classList.add('active');
+      div.querySelector('.tick').addEventListener('click', () => {
+        div.classList.toggle('active');
+        const state = div.classList.contains('active');
+        localStorage.setItem(gridStorageKey(item.id), String(state));
+      });
+      return div;
+    }
+
+    function initGrid(){
+      const grid = document.getElementById('grid9');
+      ITEMS.forEach(i => grid.appendChild(makeCell(i)));
+    }
+
+    // ----- Tabs -----
+    function initTabs(){
+      const btnPrep = document.getElementById('tabbtn-preparer');
+      const btnEval = document.getElementById('tabbtn-evaluer');
+      const pPrep = document.getElementById('tab-preparer');
+      const pEval = document.getElementById('tab-evaluer');
+      function activate(which){
+        const prep = which==='prep';
+        btnPrep.setAttribute('aria-selected', prep?'true':'false');
+        btnEval.setAttribute('aria-selected', prep?'false':'true');
+        pPrep.classList.toggle('active', prep);
+        pEval.classList.toggle('active', !prep);
+      }
+      btnPrep.addEventListener('click', () => activate('prep'));
+      btnEval.addEventListener('click', () => activate('eval'));
+      activate('prep');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTable();
+      initGrid();
+      initTabs();
+    });
+  </script>
+</body>
+</html>
