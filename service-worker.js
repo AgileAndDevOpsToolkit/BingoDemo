@@ -2,18 +2,18 @@
 const CACHE_NAME = "bingo-demo-v1";
 const ASSETS = [
   "/",                // si ton hébergeur sert index.html à /
-  "/index.html",
-  "/bingo_icons/Cadeau.png",
-  "/bingo_icons/CaptureEcran.png",
-  "/bingo_icons/DemoLive.png",
-  "/bingo_icons/ImageFigurative.png",
-  "/bingo_icons/NextStep.png",
-  "/bingo_icons/PourQuiPourquoi.png",
-  "/bingo_icons/RaconterUneHistoire.png",
-  "/bingo_icons/Roadmap.png",
-  "/bingo_icons/Schema.png",
-  "/app_icons/Icone_BingoDemo_192.png",
-  "/app_icons/Icone_BingoDemo_512.png"
+  "./index.html",
+  "./bingo_icons/Cadeau.png",
+  "./bingo_icons/CaptureEcran.png",
+  "./bingo_icons/DemoLive.png",
+  "./bingo_icons/ImageFigurative.png",
+  "./bingo_icons/NextStep.png",
+  "./bingo_icons/PourQuiPourquoi.png",
+  "./bingo_icons/RaconterUneHistoire.png",
+  "./bingo_icons/Roadmap.png",
+  "./bingo_icons/Schema.png",
+  "./app_icons/Icone_BingoDemo_192.png",
+  "./app_icons/Icone_BingoDemo_512.png"
 ];
 
 // Installation : pré-cache les assets

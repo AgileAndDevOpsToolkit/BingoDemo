@@ -1,18 +1,15 @@
 {
-  "id": "/bingo-demo",
+  "id": "./",
   "name": "Bingo Demo",
   "short_name": "Bingo",
   "description": "Bingo Demo pour préparer ou évaluer des démos",
-  "start_url": "/index.html",
-  "scope": "/",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#111827",
   "icons": [
-    { "src": "/app_icons/Icone_BingoDemo_192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/app_icons/Icone_BingoDemo_512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
-  ],
-  "shortcuts": [
-    { "name": "Onglet principal", "url": "/index.html#main", "icons": [{ "src": "/app_icons/Icone_BingoDemo_192.png", "sizes": "192x192", "type": "image/png" }] }
+    { "src": "./app_icons/icone_BingoDemo_192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./app_icons/icone_BingoDemo_512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
