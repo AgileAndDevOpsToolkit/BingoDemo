@@ -3,17 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#111827">
-
-<link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#111827">
-
-<!-- iOS -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="./app_icons/icone_BingoDemo_192.png">
-
   <title>Bingo Démo</title>
+  <script defer src="https://agileanddevopstoolkit.github.io/agile-toolkit-menu/tools.js"></script>
+  <script defer src="https://agileanddevopstoolkit.github.io/agile-toolkit-menu/menu.js"></script>
+
   <style>
     :root {
       --bg: #f6f7fb;
@@ -153,25 +146,6 @@
     /* Tab switching (JS) */
 
   </style>
-
-  <!-- Desktop only: Agile Toolkit Menu -->
-  <script>
-    (function () {
-      // Desktop only (aligné avec ton breakpoint mobile: max-width 820px)
-      const isDesktop = window.matchMedia('(min-width: 821px)').matches;
-      if (!isDesktop) return;
-
-      const s1 = document.createElement('script');
-      s1.src = 'https://agileanddevopstoolkit.github.io/agile-toolkit-menu/tools.js';
-
-      const s2 = document.createElement('script');
-      s2.src = 'https://agileanddevopstoolkit.github.io/agile-toolkit-menu/menu.js';
-      s2.defer = true;
-
-      document.head.appendChild(s1);
-      document.head.appendChild(s2);
-    })();
-  </script>
 </head>
 <body>
   <div class="container">
@@ -210,22 +184,16 @@
   </div>
 
   <script>
-	if ("serviceWorker" in navigator) {
-	  window.addEventListener("load", () => {
-		navigator.serviceWorker.register("./service-worker.js")
-		.catch(console.error);
-	  });
-	}
     const ITEMS = [
-      { id: 'pour-qui-pourquoi', label: 'Pour Qui ? Pour Quoi ?', img: 'bingo_icons/PourQuiPourquoi.png', alt: 'Pour Qui ? Pour Quoi ?', prompt: "A qui s'adresse la démo ? Quel message voulez-vous transmettre à votre public cible ?" },
-      { id: 'raconter-une-histoire', label: 'Raconter Une Histoire', img: 'bingo_icons/RaconterUneHistoire.png', alt: 'Raconter Une Histoire', prompt: 'Quelle histoire allez-vous raconter afin de contextualiser votre présentation ?' },
-      { id: 'roadmap', label: 'Roadmap', img: 'bingo_icons/Roadmap.png', alt: 'Roadmap', prompt: 'Avez-vous prévu de donner une roadmap ? Quelles sont les dates clé ?' },
-      { id: 'next-step', label: 'Next Step', img: 'bingo_icons/NextStep.png', alt: 'Next Step', prompt: 'Quelle est la prochaine étape qui fait suite à votre présentation ?' },
-      { id: 'image-figurative', label: 'Image Figurative', img: 'bingo_icons/ImageFigurative.png', alt: 'Image Figurative', prompt: 'Avez-vous prévu d\'illustrer votre présentation par des images ? Quelles images sont prévues ?' },
-      { id: 'schema', label: 'Schéma', img: 'bingo_icons/Schema.png', alt: 'Schéma', prompt: 'Avez-vous prévu de présenter des schémas ? Quels schémas ?' },
-      { id: 'capture-ecran', label: "Captures d'Écran", img: 'bingo_icons/CaptureEcran.png', alt: "Captures d'Écran", prompt: "Avez-vous prévu de mettre des captures d'écran ou des photos du produit que vous présentez ? Quelles captures d'écran ou photos ?" },
-      { id: 'demo-live', label: 'Démo Live', img: 'bingo_icons/DemoLive.png', alt: 'Démo Live', prompt: 'Avez vous prévu de faire une démo live du produit que vous présentez ? Quel scénario ?' },
-      { id: 'cadeau', label: 'Cadeau', img: 'bingo_icons/Cadeau.png', alt: 'Cadeau', prompt: "Avez-vous prévu de donner quelque chose à l'auditoire à la fin de la présentation ? Lien, accès à un produit ?" },
+      { id: 'pour-qui-pourquoi', label: 'Pour Qui ? Pour Quoi ?', img: 'PourQuiPourquoi.png', alt: 'Pour Qui ? Pour Quoi ?', prompt: "A qui s'adresse la démo ? Quel message voulez-vous transmettre à votre public cible ?" },
+      { id: 'raconter-une-histoire', label: 'Raconter Une Histoire', img: 'RaconterUneHistoire.png', alt: 'Raconter Une Histoire', prompt: 'Quelle histoire allez-vous raconter afin de contextualiser votre présentation ?' },
+      { id: 'roadmap', label: 'Roadmap', img: 'Roadmap.png', alt: 'Roadmap', prompt: 'Avez-vous prévu de donner une roadmap ? Quelles sont les dates clé ?' },
+      { id: 'next-step', label: 'Next Step', img: 'NextStep.png', alt: 'Next Step', prompt: 'Quelle est la prochaine étape qui fait suite à votre présentation ?' },
+      { id: 'image-figurative', label: 'Image Figurative', img: 'ImageFigurative.png', alt: 'Image Figurative', prompt: 'Avez-vous prévu d\'illustrer votre présentation par des images ? Quelles images sont prévues ?' },
+      { id: 'schema', label: 'Schéma', img: 'Schema.png', alt: 'Schéma', prompt: 'Avez-vous prévu de présenter des schémas ? Quels schémas ?' },
+      { id: 'capture-ecran', label: "Captures d'Écran", img: 'CaptureEcran.png', alt: "Captures d'Écran", prompt: "Avez-vous prévu de mettre des captures d'écran ou des photos du produit que vous présentez ? Quelles captures d'écran ou photos ?" },
+      { id: 'demo-live', label: 'Démo Live', img: 'DemoLive.png', alt: 'Démo Live', prompt: 'Avez vous prévu de faire une démo live du produit que vous présentez ? Quel scénario ?' },
+      { id: 'cadeau', label: 'Cadeau', img: 'Cadeau.png', alt: 'Cadeau', prompt: "Avez-vous prévu de donner quelque chose à l'auditoire à la fin de la présentation ? Lien, accès à un produit ?" },
     ];
 
     const rowsEl = document.getElementById('rows');
