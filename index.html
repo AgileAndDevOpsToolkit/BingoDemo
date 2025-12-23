@@ -153,6 +153,25 @@
     /* Tab switching (JS) */
 
   </style>
+
+  <!-- Desktop only: Agile Toolkit Menu -->
+  <script>
+    (function () {
+      // Desktop only (aligné avec ton breakpoint mobile: max-width 820px)
+      const isDesktop = window.matchMedia('(min-width: 821px)').matches;
+      if (!isDesktop) return;
+
+      const s1 = document.createElement('script');
+      s1.src = 'https://agileanddevopstoolkit.github.io/agile-toolkit-menu/tools.js';
+
+      const s2 = document.createElement('script');
+      s2.src = 'https://agileanddevopstoolkit.github.io/agile-toolkit-menu/menu.js';
+      s2.defer = true;
+
+      document.head.appendChild(s1);
+      document.head.appendChild(s2);
+    })();
+  </script>
 </head>
 <body>
   <div class="container">
