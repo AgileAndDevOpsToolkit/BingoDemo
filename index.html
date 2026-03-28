@@ -109,6 +109,21 @@
     .cell.active .tick { background: var(--check-green); border-color: #18a45d; box-shadow: 0 10px 22px rgba(24,164,93,.28); }
     .cell.active .tick::after { border-right-color: #fff; border-bottom-color: #fff; }
 
+    /* --- Sticky grid et notes --- */
+    #gridWrap { position: sticky; top: 0; z-index: 100; transition: all 0.3s ease; }
+    #gridWrap.sticky { padding: 8px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); }
+    #gridWrap.sticky .grid9 { gap: 4px; }
+    #gridWrap.sticky .cell { min-height: auto; padding: 4px 4px 28px; }
+    #gridWrap.sticky .cell .mini { flex-wrap: nowrap; }
+    #gridWrap.sticky .cell .mini img { width: 32px; height: 32px; }
+    #gridWrap.sticky .cell .mini .t { font-size: 10px; line-height: 1.1; }
+    #gridWrap.sticky .tick { width: 24px; height: 24px; bottom: 4px; }
+    #gridWrap.sticky .tick::after { width: 9px; height: 16px; border-right-width: 3px; border-bottom-width: 3px; }
+
+    .eval-notes-section { margin-top: 20px; }
+    .eval-notes { width: 100%; min-height: 300px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); color: var(--text); font-family: inherit; font-size: 14px; resize: vertical; box-sizing: border-box; }
+    .eval-notes:focus { outline: none; border-color: var(--accent); box-shadow: var(--focus); }
+
     /* Mobile */
     @media (max-width: 820px) {
       /* Panel 1 (préparer) – inchangé, juste compact */
@@ -207,8 +222,11 @@
 
     <!-- Panel 2: Évaluer une démo -->
     <section id="tab-evaluer" class="tab-panel" aria-hidden="true">
-      <div class="grid-wrap">
+      <div class="grid-wrap" id="gridWrap">
         <div id="grid9" class="grid9" role="grid" aria-label="Évaluer une démo — 9 critères"></div>
+      </div>
+      <div class="eval-notes-section">
+        <textarea id="evalNotes" class="eval-notes" placeholder="Prenez vos notes ici..."></textarea>
       </div>
     </section>
   </div>
@@ -408,12 +426,41 @@
       });
     }
 
+    // ----- Sticky Grid -----
+    function initStickyGrid(){
+      const gridWrap = document.getElementById('gridWrap');
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.boundingClientRect.top <= 0) {
+          gridWrap.classList.add('sticky');
+        } else {
+          gridWrap.classList.remove('sticky');
+        }
+      }, {
+        threshold: 0
+      });
+      observer.observe(gridWrap);
+    }
+
+    // ----- Eval Notes -----
+    function initEvalNotes(){
+      const notesEl = document.getElementById('evalNotes');
+      const storedNotes = localStorage.getItem('checklist9:evalNotes');
+      if (storedNotes) {
+        notesEl.value = storedNotes;
+      }
+      notesEl.addEventListener('input', (e) => {
+        localStorage.setItem('checklist9:evalNotes', e.target.value);
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       initDemoTitle();
       initDownload();
       initTable();
       initGrid();
       initTabs();
+      initStickyGrid();
+      initEvalNotes();
     });
   </script>
 </body>
