@@ -174,7 +174,7 @@
     </header>
 
     <div class="demo-title-section">
-      <input type="text" id="demoTitle" class="demo-title-input" placeholder="Titre de la démo" />
+      <input type="text" id="demoTitle" class="demo-title-input" placeholder="Titre de la démo" maxlength="50" />
       <button id="downloadBtn" class="download-btn" title="Télécharger" aria-label="Télécharger les données en fichier texte">
         <svg viewBox="0 0 24 24">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -343,11 +343,25 @@
       });
     }
 
+    function sanitizeFilename(str) {
+      // Remplacer les espaces par des tirets
+      let cleaned = str.trim().replace(/\s+/g, '-');
+      // Garder uniquement les caractères alphanumériques, tirets et underscores
+      cleaned = cleaned.replace(/[^a-zA-Z0-9\u00C0-\u00FF\-_]/g, '');
+      // Supprimer les tirets multiples consécutifs
+      cleaned = cleaned.replace(/-+/g, '-');
+      // Supprimer les tirets au début et à la fin
+      cleaned = cleaned.replace(/^-+|-+$/g, '');
+      return cleaned || 'Demo';
+    }
+
     function initDownload(){
       const downloadBtn = document.getElementById('downloadBtn');
       downloadBtn.addEventListener('click', () => {
-        // Récupérer le titre
-        const demoTitle = document.getElementById('demoTitle').value || 'Démo sans titre';
+        // Récupérer et nettoyer le titre
+        const demoTitleRaw = document.getElementById('demoTitle').value || '';
+        const demoTitle = demoTitleRaw || 'Démo sans titre';
+        const sanitized = sanitizeFilename(demoTitleRaw) || 'Demo';
         
         // Préparer le contenu du fichier
         let content = `BINGO DÉMO - ${demoTitle}\n`;
@@ -385,7 +399,7 @@
         const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
         const link = document.createElement('a');
         const timestamp = new Date().toISOString().slice(0, 10);
-        const filename = `BingoDemo_${timestamp}.txt`;
+        const filename = `${timestamp}_${sanitized}_BingoDemo.txt`;
         
         link.href = URL.createObjectURL(blob);
         link.download = filename;
