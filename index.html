@@ -45,10 +45,14 @@
     .hint { font-size: 13px; color: var(--muted); max-width: 70%; }
 
     /* Demo Title Input */
-    .demo-title-section { margin: 20px 0 16px; text-align: center; }
-    .demo-title-input { font-size: 16px; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); color: var(--text); width: 100%; max-width: 400px; box-sizing: border-box; transition: border-color .15s ease-in-out; font-family: inherit; }
+    .demo-title-section { margin: 20px auto 16px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; max-width: 500px; padding: 0 16px; }
+    .demo-title-input { font-size: 16px; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--panel); color: var(--text); width: 100%; max-width: 380px; box-sizing: border-box; transition: border-color .15s ease-in-out; font-family: inherit; }
     .demo-title-input::placeholder { color: var(--muted); }
     .demo-title-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--focus); }
+    .download-btn { appearance: none; background: none; border: none; cursor: pointer; padding: 12px; border-radius: var(--radius-sm); transition: all .15s ease-in-out; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+    .download-btn:hover { background: rgba(31, 191, 91, .1); transform: scale(1.1); }
+    .download-btn:active { transform: scale(0.95); }
+    .download-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2; }
 
     /* Tabs */
     .tabs { display: flex; gap: 10px; margin: 12px 0 20px; flex-wrap: wrap; }
@@ -171,6 +175,13 @@
 
     <div class="demo-title-section">
       <input type="text" id="demoTitle" class="demo-title-input" placeholder="Titre de la démo" />
+      <button id="downloadBtn" class="download-btn" title="Télécharger" aria-label="Télécharger les données en fichier texte">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+      </button>
     </div>
 
     <nav class="tabs" role="tablist" aria-label="Sections">
@@ -332,8 +343,60 @@
       });
     }
 
+    function initDownload(){
+      const downloadBtn = document.getElementById('downloadBtn');
+      downloadBtn.addEventListener('click', () => {
+        // Récupérer le titre
+        const demoTitle = document.getElementById('demoTitle').value || 'Démo sans titre';
+        
+        // Préparer le contenu du fichier
+        let content = `BINGO DÉMO - ${demoTitle}\n`;
+        content += `Généré le: ${new Date().toLocaleString('fr-FR')}\n`;
+        content += `\n${'='.repeat(60)}\n\n`;
+
+        // Ajouter les éléments de la checklist avec notes
+        content += `CHECKLIST PRÉPARATION\n`;
+        content += `${'-'.repeat(60)}\n\n`;
+        
+        ITEMS.forEach(item => {
+          // Utiliser la même logique que le chargement initial : cochée par défaut si pas en localStorage
+          const stored = localStorage.getItem(storageKey(`${item.id}:checked`));
+          const isChecked = stored === null ? true : stored === 'true';
+          const notes = localStorage.getItem(storageKey(`${item.id}:notes`)) || '';
+          
+          content += `[${isChecked ? 'X' : ' '}] ${item.label}\n`;
+          if (notes) {
+            content += `Notes: ${notes}\n`;
+          }
+          content += `\n`;
+        });
+
+        // Ajouter l'état de la grille d'évaluation
+        content += `\n${'='.repeat(60)}\n\n`;
+        content += `GRILLE D'ÉVALUATION\n`;
+        content += `${'-'.repeat(60)}\n\n`;
+        
+        ITEMS.forEach(item => {
+          const isActive = localStorage.getItem(gridStorageKey(item.id)) === 'true';
+          content += `[${isActive ? 'X' : ' '}] ${item.label}\n`;
+        });
+
+        // Créer et télécharger le fichier
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        const timestamp = new Date().toISOString().slice(0, 10);
+        const filename = `BingoDemo_${timestamp}.txt`;
+        
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(link.href);
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       initDemoTitle();
+      initDownload();
       initTable();
       initGrid();
       initTabs();
