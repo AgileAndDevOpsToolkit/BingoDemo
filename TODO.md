@@ -1,0 +1,1 @@
+- Autmenter le nombre de caractères possibles pour le titre. Exemple : Sur la présentation "scrum master augmené", j'ai pas assez de place pour le titre complet
