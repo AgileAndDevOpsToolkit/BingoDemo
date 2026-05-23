@@ -1,1 +1,2 @@
 - Autmenter le nombre de caractères possibles pour le titre. Exemple : Sur la présentation "scrum master augmené", j'ai pas assez de place pour le titre complet
+- Ajouter l'heure dans le nom des fichiers téléchargés ? Est-ce vraiment utile ? Peut être que l'utilisateur voudra simplement écraser le fichier du jour. Il se souviendra des modifs et si jamais il veut quand même les 2 fichiers, il pourra numéroter manuellement
